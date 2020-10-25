@@ -1,6 +1,6 @@
 ---
 - name: init aws wm
-  hosts: local
+  hosts: localhost
 
   tasks:
     - name: test
