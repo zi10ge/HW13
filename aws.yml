@@ -43,8 +43,9 @@
         wait: yes
         count: 1
         vpc_subnet_id: subnet-1109d95d
-        assign_public_ip: yes
-        instance_tags:
-            tool: "HW13"
-            env: "HW13"        
+        assign_public_ip: yes      
       register: ec2
+    
+    - name: test echo
+      command echo "{{ Instances.NetworkInterfaces.PrivateDnsName }}"
+
