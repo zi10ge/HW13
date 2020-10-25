@@ -46,6 +46,5 @@
         assign_public_ip: yes      
       register: ec2
     
-    - name: test echo
-      command: echo "{{ ec2.Instances.NetworkInterfaces.PrivateDnsName }}"
+    - debug:  var=ec2.Instances[0].NetworkInterfaces[0].PrivateDnsName"
 
