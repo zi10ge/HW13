@@ -47,5 +47,6 @@
       register: ec2
     
     - name: test
-      debug:  var=ec2.Instances[0].public_dns_name"
+      command: echo "{{ ec2.Instances[0].public_dns_name }}"
+
 
