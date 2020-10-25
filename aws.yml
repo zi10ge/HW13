@@ -44,19 +44,19 @@
         count: 2
         vpc_subnet_id: subnet-1109d95d
         assign_public_ip: yes      
-      register: ec2
+      register: myec2
     
     - name: test
-      command: echo "{{ ec2.Instances[0].public_dns_name }}"
+      command: echo "{{ myec2.instances[0].public_dns_name }}"
 
     - name: Add new BUILD instance to host group build
       add_host:
-        hostname: "{{ ec2.Instances[0].public_ip }}"
+        hostname: "{{ myec2.instances[0].public_ip }}"
         groupname: build
 
     - name: Add new BUILD instance to host group prod
       add_host:
-        hostname: "{{ ec2.Instances[1].public_ip }}"
+        hostname: "{{ myec2.instances[1].public_ip }}"
         groupname: web
       
     - name: Wait for SSH to come up
@@ -64,7 +64,7 @@
       wait_for_connection:
         delay: 60
         timeout: 320
-      loop: "{{ ec2.instances }}"
+      loop: "{{ myec2.instances }}"
 
 - name: build war
   hosts: build
