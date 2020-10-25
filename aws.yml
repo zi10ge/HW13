@@ -33,15 +33,6 @@
       copy: content="{{ ec2_key_result.key.private_key }}" dest="./my_aws_key.pem" mode=0600
       when: ec2_key_result.changed
     
-    - name: Create subnet for servers
-      ec2_vpc:
-        state: present
-        cidr: 10.0.1.16/28
-        tags:
-          Name: My Subnet
-        region: "eu-central-1"
-      register: my_subnet
-  
     - name: create AWS ec2 instance
       ec2:
         key_name: "my_aws_key"
@@ -51,6 +42,6 @@
         image: "ami-0fefc541a9298d8c0"
         wait: yes
         count: 1
-        vpc_subnet_id: "{{  my_subnet.vpc_subnet_id }}"
+        vpc_subnet_id: subnet-1109d95d
         assign_public_ip: yes
       register: ec2
