@@ -34,11 +34,12 @@
       when: ec2_key_result.changed
     
     - name: Create subnet for servers
-      ec2_vpc_subnet:
+      ec2_vpc:
         state: present
         cidr: 10.0.1.16/28
         tags:
           Name: My Subnet
+        region: "eu-central-1"
       register: my_subnet
   
     - name: create AWS ec2 instance
@@ -50,6 +51,6 @@
         image: "ami-0fefc541a9298d8c0"
         wait: yes
         count: 1
-        vpc_subnet_id: vpc-123456
+        vpc_subnet_id: "{{  my_subnet.vpc_subnet_id }}"
         assign_public_ip: yes
       register: ec2
