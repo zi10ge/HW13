@@ -36,7 +36,6 @@
     - name: Create subnet for servers
       ec2_vpc_subnet:
         state: present
-        vpc_id: vpc-123456
         cidr: 10.0.1.16/28
         tags:
           Name: My Subnet
