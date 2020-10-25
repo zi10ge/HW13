@@ -39,9 +39,9 @@
         group: "ansible-sec-group"
         instance_type: "t2.micro"
         ec2_region: "eu-central-1"
-        image: "ami-0fefc541a9298d8c0"
+        image: "ami-092391a11f8aa4b7b"
         wait: yes
         count: 1
-        vpc_subnet_id: subnet-1109d95d
+        vpc_subnet_id: default
         assign_public_ip: yes
       register: ec2
