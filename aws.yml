@@ -1,6 +1,7 @@
 ---
 - name: init aws wm
-  hosts: localhost
+  hosts: 127.0.0.1
+  connection: local
 
   tasks:
     - name:  create AWS security group
