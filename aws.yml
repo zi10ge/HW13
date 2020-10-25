@@ -64,7 +64,7 @@
         host= "{{ item.public_ip }}"
         port=22
         state=started
-      with_items: "{{ myec2.instances }}""
+      with_items: "{{ myec2.instances }}"
 
 - name: build war
   hosts: build
