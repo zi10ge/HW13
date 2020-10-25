@@ -61,10 +61,10 @@
       
     - name: Wait for SSH to come up
       local_action: wait_for
-        host={{ item.public_ip }}
+        host= "{{ item.public_ip }}"
         port=22
         state=started
-      with_items: myec2.instances
+      with_items: "{{ myec2.instances }}""
 
 - name: build war
   hosts: build
