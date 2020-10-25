@@ -3,5 +3,18 @@
   hosts: localhost
 
   tasks:
-    - name: test
-      command: uname -a
+    - name:  create AWS security group
+      ec2_group:
+        name: ansible-sec-group
+        description: "SG"
+        region: eu-central-1
+        rules:
+          - proto: "tcp"
+            from_port: 22
+            to_port: 22
+            cidr_ip: "0.0.0.0/0"    
+        rules_egress:
+          - proto: "all"
+            cidr_ip: "0.0.0.0/0"
+      register: secgrp
+  
