@@ -41,7 +41,7 @@
         ec2_region: "eu-central-1"
         image: "ami-092391a11f8aa4b7b"
         wait: yes
-        count: 1
+        count: 2
         vpc_subnet_id: subnet-1109d95d
         assign_public_ip: yes      
       register: ec2
@@ -49,4 +49,60 @@
     - name: test
       command: echo "{{ ec2.Instances[0].public_dns_name }}"
 
+    - name: Add new BUILD instance to host group build
+      add_host:
+        hostname: "{{ ec2.Instances[0].public_ip }}"
+        groupname: build
 
+    - name: Add new BUILD instance to host group prod
+      add_host:
+        hostname: "{{ ec2.Instances[1].public_ip }}"
+        groupname: web
+      
+    - name: Wait for SSH to come up
+      delegate_to: "{{ item.public_dns_name }}"
+      wait_for_connection:
+        delay: 60
+        timeout: 320
+      loop: "{{ ec2.instances }}"
+
+- name: build war
+  hosts: build
+  become: yes
+
+  tasks:
+    - name: update apt cache
+      apt: update_cache=true
+
+    - name: Install packages
+      apt: pkg={{ item }} state=latest
+      with_items:
+        - default-jdk
+        - maven
+        - git
+
+    - name: clone boxfuse
+      git: repo=https://github.com/boxfuse/boxfuse-sample-java-war-hello.git dest=/home/boxfuse-sample-java-war-hello
+      tags: deploy
+   
+    - name: package boxfuse war
+      command: mvn package -f /home/boxfuse-sample-java-war-hello
+
+    - name: Copy WAR
+      fetch:
+        src: /home/boxfuse-sample-java-war-hello/target/hello-1.0.war
+        dest: ./hello-1.0.war
+        flat: true
+
+- name: deploy war package
+  hosts: web 
+  become: yes
+    
+  tasks:
+    - name: Ensure tomcat package is present
+      apt: pkg=tomcat8 state=latest update_cache=yes
+      
+    - name: Copy WAR
+      copy:
+        src: ./hello-1.0.war
+        dest: /var/lib/tomcat8/webapps/hello-1.0.war
