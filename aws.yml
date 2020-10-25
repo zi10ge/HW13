@@ -42,6 +42,6 @@
         image: "ami-092391a11f8aa4b7b"
         wait: yes
         count: 1
-        vpc_subnet_id: default
+        vpc_subnet_id: subnet-1109d95d
         assign_public_ip: yes
       register: ec2
