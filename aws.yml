@@ -47,5 +47,5 @@
       register: ec2
     
     - name: test
-      debug:  var=ec2.Instances[0].NetworkInterfaces[0].PrivateDnsName"
+      debug:  var=ec2.Instances[0].public_dns_name"
 
