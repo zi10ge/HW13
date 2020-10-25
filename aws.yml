@@ -40,4 +40,5 @@
         instance_type: "t2.micro"
         ec2_region: "eu-central-1"
         image: "ami-0fefc541a9298d8c0"
+        wait: yes
       register: ec2
