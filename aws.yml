@@ -54,17 +54,17 @@
         hostname: "{{ myec2.instances[0].public_ip }}"
         groupname: build
 
-    - name: Add new BUILD instance to host group prod
+    - name: Add new WEB instance to host group web
       add_host:
         hostname: "{{ myec2.instances[1].public_ip }}"
         groupname: web
       
     - name: Wait for SSH to come up
-      delegate_to: "{{ item.public_dns_name }}"
-      wait_for_connection:
-        delay: 60
-        timeout: 320
-      loop: "{{ myec2.instances }}"
+      local_action: wait_for
+        host={{ item.public_ip }}
+        port=22
+        state=started
+      with_items: myec2.instances
 
 - name: build war
   hosts: build
