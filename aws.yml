@@ -30,7 +30,7 @@
       register: ec2_key_result
 
     - name: save key
-      copy: content="{{ ec2_key_result.key.private_key }}" dest="./my_aws_key.pem" mode=0600
+      copy: content="{{ ec2_key_result.key.private_key }}" dest="./my_aws_key.pem" mode=0600 force=yes
       when: ec2_key_result.changed
     
     - name: create AWS ec2 instance
@@ -59,12 +59,12 @@
         hostname: "{{ myec2.instances[1].public_ip }}"
         groupname: web
       
-    - name: Wait for SSH to come up
-      local_action: wait_for
-        host= "{{ item.public_ip }}"
-        port=22
-        state=started
-      with_items: "{{ myec2.instances }}"
+#    - name: Wait for SSH to come up
+#      local_action: wait_for
+#        host= "{{ item.public_ip }}"
+#        port=22
+#        state=started
+#     with_items: "{{ myec2.instances }}"
 
 - name: build war
   hosts: build
