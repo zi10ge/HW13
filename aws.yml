@@ -44,4 +44,7 @@
         count: 1
         vpc_subnet_id: subnet-1109d95d
         assign_public_ip: yes
+        instance_tags:
+            tool: "HW13"
+            env: "HW13"        
       register: ec2
