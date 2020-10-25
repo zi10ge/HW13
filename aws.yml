@@ -1,0 +1,7 @@
+---
+- name: init aws wm
+  hosts: local
+
+  tasks:
+    - name: test
+      command: uname -a
