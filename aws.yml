@@ -1,6 +1,6 @@
 ---
 - name: init aws wm
-  hosts: 127.0.0.1
+  hosts: lhost
   connection: local
 
   tasks:
