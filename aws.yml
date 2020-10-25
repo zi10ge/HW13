@@ -41,4 +41,5 @@
         ec2_region: "eu-central-1"
         image: "ami-0fefc541a9298d8c0"
         wait: yes
+        count: 1
       register: ec2
