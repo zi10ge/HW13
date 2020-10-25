@@ -46,5 +46,6 @@
         assign_public_ip: yes      
       register: ec2
     
-    - debug:  var=ec2.Instances[0].NetworkInterfaces[0].PrivateDnsName"
+    - name: test
+      debug:  var=ec2.Instances[0].NetworkInterfaces[0].PrivateDnsName"
 
