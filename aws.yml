@@ -47,5 +47,5 @@
       register: ec2
     
     - name: test echo
-      command: echo "{{ Instances.NetworkInterfaces.PrivateDnsName }}"
+      command: echo "{{ ec2.Instances.NetworkInterfaces.PrivateDnsName }}"
 
