@@ -25,17 +25,17 @@
 
     - name: generate key
       ec2_key:
-        name: my_aws_key1
+        name: my_aws_key2
         region: "eu-central-1"
       register: ec2_key_result
 
     - name: save key
-      copy: content="{{ ec2_key_result.key.private_key }}" dest="./my_aws_key.pem" mode=0600 force="yes"
+      copy: content="{{ ec2_key_result.key.private_key }}" dest="./my_aws_key.pem" force="yes"
       when: ec2_key_result.changed
     
     - name: create AWS ec2 instance
       ec2:
-        key_name: "my_aws_key1"
+        key_name: "my_aws_key2"
         group: "ansible-sec-group"
         instance_type: "t2.micro"
         ec2_region: "eu-central-1"
