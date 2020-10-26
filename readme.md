@@ -33,3 +33,11 @@ add ./ansible.cfg
 - hosts: my_host
   tasks:
     - ping:
+
+
+
+        - name: KeyChecking off - host build
+      command: "ssh -o "StrictHostKeyChecking=no" ubuntu@{{ myec2.instances[0].public_ip }}"
+
+    - name: add web to known host
+      command: "ssh-keyscan -H {{ myec2.instances[1].public_ip }} >> ~/.ssh/known_hosts"
