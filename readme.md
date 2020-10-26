@@ -19,3 +19,17 @@ add ./ansible.cfg
     - name: Write the new ec2 instance host key to known hosts
     connection: local
     shell: "ssh-keyscan -H {{ inventory_hostname }} >> ~/.ssh/known_hosts"
+
+также будет работать с версиями Ansible старше 2.5):
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - add_host:
+        name: my_host
+        ansible_host: myhost.example.com
+        host_key_checking: false
+
+- hosts: my_host
+  tasks:
+    - ping:
