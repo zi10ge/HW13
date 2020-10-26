@@ -69,7 +69,7 @@
     - name: KeyChecking off - host build
       command: "ssh -o 'StrictHostKeyChecking=no' ubuntu@{{ myec2.instances[0].public_ip }}"
 
-      - name: KeyChecking off - host web
+    - name: KeyChecking off - host web
       command: "ssh -o 'StrictHostKeyChecking=no' ubuntu@{{ myec2.instances[1].public_ip }}"
 
     - name: install python on build
