@@ -66,23 +66,18 @@
         state: present
       with_items: "{{ myec2.instances }}"
 
-    - name: KeyChecking off - host build
-      command: "ssh -o 'StrictHostKeyChecking=no' ubuntu@{{ myec2.instances[0].public_ip }}"
+#    - name: install python on build
+#      command: "ssh ubuntu@{{ myec2.instances[0].public_ip }} -i ./my_aws_key.pem 'sudo apt update; sudo apt install -y python;'"
 
-    - name: KeyChecking off - host web
-      command: "ssh -o 'StrictHostKeyChecking=no' ubuntu@{{ myec2.instances[1].public_ip }}"
-
-    - name: install python on build
-      command: "ssh ubuntu@{{ myec2.instances[0].public_ip }} -i ./my_aws_key.pem 'sudo apt update; sudo apt install -y python;'"
-
-    - name: install python on web
-      command: "ssh ubuntu@{{ myec2.instances[1].public_ip }} -i ./my_aws_key.pem 'sudo apt update; sudo apt install -y python;'"
+#    - name: install python on web
+#      command: "ssh ubuntu@{{ myec2.instances[1].public_ip }} -i ./my_aws_key.pem 'sudo apt update; sudo apt install -y python;'"
     
 
 - name: build war
   hosts: build
   become: yes
   remote_user: ubuntu
+  gather_facts: no
 
   vars:
     ansible_ssh_private_key_file: "./my_aws_key.pem"
@@ -115,6 +110,7 @@
   hosts: web 
   become: yes
   remote_user: ubuntu
+  gather_facts: no
 
   vars:
     ansible_ssh_private_key_file: "./my_aws_key.pem"
