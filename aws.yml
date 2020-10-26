@@ -61,11 +61,11 @@
       
     - name: Wait for SSH to come up
       local_action: wait_for
-        host= "{{ item.public_ip }}"
-        port=22
+        host = "{{ item.public_ip }}"
+        port = 22
         delay = 5
         timeout = 5        
-        state=started
+        state = present
       with_items: "{{ myec2.instances }}"
 
     - name: install python on build
