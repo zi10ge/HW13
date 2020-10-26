@@ -6,7 +6,6 @@
   vars:
     mregion: eu-central-1
     mkey_name: my_aws_key3
-    mkey: ./my_aws_key.pem
     msecurity_group: test_sec_1
     mimage_ami: ami-092391a11f8aa4b7b
 
@@ -37,7 +36,7 @@
       register: ec2_key_result
 
     - name: save key
-      copy: content="{{ ec2_key_result.key.private_key }}" dest="{{ mkey }}" mode=0600 force="yes"
+      copy: content="{{ ec2_key_result.key.private_key }}" dest="./my_aws_key.pem" mode=0600 force="yes"
       when: ec2_key_result.changed
     
     - name: create 2 AWS ec2 instance
@@ -85,7 +84,7 @@
   remote_user: ubuntu
 
   vars:
-    ansible_ssh_private_key_file: "{{ mkey }}"
+    ansible_ssh_private_key_file: "./my_aws_key.pem"
   
   tasks:
     - name: update apt cache
@@ -117,7 +116,7 @@
   remote_user: ubuntu
 
   vars:
-    ansible_ssh_private_key_file: "{{ mkey }}"
+    ansible_ssh_private_key_file: "./my_aws_key.pem"
     
   tasks:
     - name: ensure tomcat package is present
