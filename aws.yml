@@ -2,7 +2,8 @@
 - name: init aws instances
   hosts: lhost
   connection: local
-
+  become: yes
+  
   tasks:
     - name:  create AWS security group
       ec2_group:
