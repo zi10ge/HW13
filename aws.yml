@@ -69,6 +69,7 @@
 - name: build war
   hosts: build
   become: yes
+  remote_user: ubuntu
 
   tasks:
     - name: update apt cache
@@ -97,6 +98,7 @@
 - name: deploy war package
   hosts: web 
   become: yes
+  remote_user: ubuntu
     
   tasks:
     - name: Ensure tomcat package is present
