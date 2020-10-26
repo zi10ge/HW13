@@ -65,8 +65,11 @@
         state: present
       with_items: "{{ myec2.instances }}"
 
-    - name: install python on build
-      command: "ssh-keyscan {{ myec2.instances[0].public_ip }}  {{ myec2.instances[1].public_ip }}"
+    - name: add build to known host
+      command: "ssh-keyscan -H {{ myec2.instances[0].public_ip }} ~/.ssh/known_hosts"
+
+    - name: add web to known host
+      command: "ssh-keyscan -H {{ myec2.instances[1].public_ip }} ~/.ssh/known_hosts"
 
     - name: install python on build
       command: "ssh ubuntu@{{ myec2.instances[0].public_ip }} -i ./my_aws_key.pem 'sudo apt update; sudo apt install -y python;'"
