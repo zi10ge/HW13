@@ -84,7 +84,7 @@
   
   tasks:
     - name: test
-      command: "apt update; apt install -y python;"
+      command: "sudo apt update; sudo apt install -y python;"
 
     - name: update apt cache
       apt: update_cache=true
