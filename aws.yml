@@ -46,9 +46,6 @@
         assign_public_ip: yes      
       register: myec2
     
-    - name: test
-      command: echo "{{ myec2.instances[0].public_dns_name }}"
-
     - name: Add new BUILD instance to host group build
       add_host:
         hostname: "{{ myec2.instances[0].public_ip }}"
@@ -60,12 +57,12 @@
         groupname: web
       
     - name: Wait for SSH to come up
-      local_action: wait_for
-        host = "{{ item.public_ip }}"
-        port = 22
-        delay = 5
-        timeout = 5        
-        state = present
+      wait_for:
+        host: "{{ item.public_ip }}"
+        port: 22
+        delay: 5
+        timeout: 300        
+        state: present
       with_items: "{{ myec2.instances }}"
 
     - name: install python on build
