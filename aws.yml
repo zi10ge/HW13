@@ -66,7 +66,7 @@
         delay = 5
         timeout = 5        
         state=started
-      with_items: "{{ ec2.instances }}"
+      with_items: "{{ myec2.instances }}"
 
     - name: install python on build
       command: "ssh ubuntu@{{ myec2.instances[0].public_ip }} -i ./my_aws_key.pem 'sudo apt update; sudo apt install -y python;'"
