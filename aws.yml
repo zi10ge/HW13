@@ -16,7 +16,7 @@
             cidr_ip: "0.0.0.0/0"    
           - proto: "tcp"
             from_port: 80
-            to_port: 80
+            to_port: 8080
             cidr_ip: "0.0.0.0/0"       
         rules_egress:
           - proto: "all"
@@ -59,12 +59,19 @@
         hostname: "{{ myec2.instances[1].public_ip }}"
         groupname: web
       
-#    - name: Wait for SSH to come up
-#      local_action: wait_for
-#        host= "{{ item.public_ip }}"
-#        port=22
-#        state=started
-#     with_items: "{{ myec2.instances }}"
+    - name: Wait for SSH to come up
+      local_action: wait_for
+        host= "{{ item.public_ip }}"
+        port=22
+        state=started
+      with_items: "{{ myec2.instances }}"
+
+    - name: install python on build
+      command: "ssh ubuntu@{{ myec2.instances[0].public_ip }} -i ./my_aws_key.pem 'sudo apt update; sudo apt install -y python;'"
+
+    - name: install python on web
+      command: "ssh ubuntu@{{ myec2.instances[1].public_ip }} -i ./my_aws_key.pem 'sudo apt update; sudo apt install -y python;'"
+    
 
 - name: build war
   hosts: build
